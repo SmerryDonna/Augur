@@ -44,6 +44,4 @@ public class APIClient {
 		return apiResponse;
 	}
 
-	// get che riceve la post con la risposta del server che lo manda affacnculo
-
 }
