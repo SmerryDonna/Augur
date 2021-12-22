@@ -11,7 +11,6 @@ import com.coinmarketapi.models.ApiResponse;
 
 public class APIClient {
 
-	// metodo post dove creo il json object con le info del messaggio e lo invio
 	private MessaggioClient messaggioClient;
 	private String urlBase = "http://localhost:4567/api/v1.0/";
 
@@ -23,14 +22,13 @@ public class APIClient {
 		RestTemplate restTemplate = new RestTemplate();
 		try {
 			Map map = restTemplate.postForObject(new URI(urlBase), this.messaggioClient, Map.class);
-			// System.out.println(map + "CIAO");
 			if (map != null && map.containsKey("data") && map.containsKey("success")) {
 				return new ApiResponse<String>((boolean) map.get("success"), (String) map.get("data"));
 			} else {
 				return new ApiResponse<String>(false, null);
 			}
 		} catch (Exception ignored) {
-			// System.out.println("Errore nella ricezione delle informazioni.");
+			System.out.println("Errore nella ricezione delle informazioni.");
 			return new ApiResponse<String>(false, null);
 		}
 	}

@@ -16,7 +16,6 @@ public class APIServer {
 	public static void main(String[] args) {
 		String urlBase = "/api/v1.0/";
 		Gson gson = new Gson();
-
 		before((request, response) -> {
 			response.header("Access-Control-Allow-Origin", "*");
 			response.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");

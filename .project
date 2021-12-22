@@ -25,4 +25,11 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>resources</name>
+			<type>2</type>
+			<location>C:/Users/elena/eclipse-workspace/augur-application-java/src/main/resources</location>
+		</link>
+	</linkedResources>
 </projectDescription>

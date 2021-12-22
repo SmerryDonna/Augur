@@ -28,6 +28,10 @@ public class InterGraph {
 	private JLabel lblVintoPerso;
 	private JLabel lblRisultato;
 
+	public InterGraph() {
+		initialize();
+	}
+
 	/**
 	 * @wbp.parser.entryPoint
 	 */
@@ -44,10 +48,6 @@ public class InterGraph {
 				}
 			}
 		});
-	}
-
-	public InterGraph() {
-		initialize();
 	}
 
 	// Il metodo inizializza tutti gli elementi della finestra dando loro

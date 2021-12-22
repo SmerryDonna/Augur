@@ -1,36 +1,50 @@
 package com.cryptoproject.graph;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import javax.swing.JLabel;
-import javax.swing.AbstractButton;
-import javax.swing.JButton;
-import javax.swing.JTextField;
-import java.awt.event.ActionListener;
+import java.awt.Desktop;
+import java.awt.EventQueue;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URL;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import com.coinmarketapi.models.ApiResponse;
+import com.cyptoproject.login.GoogleAuthHelper;
 
 public class LogInGraph {
-	
+
 	private JFrame frame;
-	
+
 	LogInGraph login;
-	private JTextField txtNomeUtente;
-	private JTextField txtPswUtente;
-	
-	private JButton btnSubmit = new JButton("Submit");
-	
-	
+
+	private ImageIcon icon;
+
+	private ImageIcon imageBtn;
+
+	private JLabel myLabel;
+
+	private JButton btnSubmit;
+
+	public LogInGraph() {
+		initialize();
+	}
+
 	/**
 	 * @wbp.parser.entryPoint
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
-					
+
 					LogInGraph login = new LogInGraph();
 					login.frame.setVisible(true);
 				} catch (Exception e) {
@@ -39,55 +53,54 @@ public class LogInGraph {
 			}
 		});
 	}
-	
-	public LogInGraph() {
-		initialize();
-	}
 
 	private void initialize() {
-		
+
+		icon = new ImageIcon(this.getClass().getResource("/Splashpage.png"));
+
+		imageBtn = new ImageIcon(this.getClass().getResource("/loginGoogle.png"));
+
+		Image scaleImage = imageBtn.getImage();
+		Image newimage = scaleImage.getScaledInstance(100, 30, Image.SCALE_SMOOTH);
+
 		frame = new JFrame("Login");
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		Image ic = Toolkit.getDefaultToolkit().getImage("/favicon.png");
+		frame.setIconImage(ic);
+		frame.setVisible(true);
+
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
-		
-		JLabel nomeUtente = new JLabel("Nome Utente");
-		nomeUtente.setBounds(90, 75, 63, 14);
-		panel.add(nomeUtente);
-		
-		JLabel pswUtente = new JLabel("Password Utente");
-		pswUtente.setBounds(90, 125, 82, 14);
-		panel.add(pswUtente);
-		
-		
+
+		btnSubmit = new JButton();
+
+		btnSubmit.setBounds(140, 211, 172, 31);
+		btnSubmit.setIcon(imageBtn);
+		panel.add(btnSubmit);
+		btnSubmit.setBorder(new RoundedBorder(10));
+
+		myLabel = new JLabel(icon);
+		myLabel.setLocation(0, 0);
+		panel.add(myLabel);
+		myLabel.setSize(450, 300);
+
 		btnSubmit.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
+				Desktop d = Desktop.getDesktop();
+				ApiResponse<String> responseLogIn = new ApiResponse();
+				try {
+					GoogleAuthHelper helper = new GoogleAuthHelper();
+					d.browse(new URL(helper.buildLoginUrl()).toURI());
+				} catch (Exception a) {
+					a.printStackTrace();
+				}
+
 			}
 		});
-		btnSubmit.setBounds(335, 227, 89, 23);
-		panel.add(btnSubmit);
-		
-		txtNomeUtente = new JTextField();
-		txtNomeUtente.setBounds(205, 72, 170, 20);
-		panel.add(txtNomeUtente);
-		txtNomeUtente.setColumns(10);
-		
-		txtPswUtente = new JTextField();
-		txtPswUtente.setBounds(205, 122, 170, 20);
-		panel.add(txtPswUtente);
-		txtPswUtente.setColumns(10);
-		
-	}
 
-	public String getUsername() {
-		return txtNomeUtente.getText();
-	}
-
-	public String getPsw() {
-		return txtPswUtente.getText();
 	}
 
 	public JButton getBtnSubmit() {

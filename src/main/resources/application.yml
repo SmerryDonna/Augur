@@ -1,0 +1,18 @@
+spring:
+   application:
+      name: augur-application-java
+server:
+   port: 8080
+---
+spring:
+ security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 426604052713-jeedlgdagbak6joqfr1dvulr7bpmjqgo.apps.googleusercontent.com
+            client-secret: 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
+            scope: 
+              -email
+              -profile
+          

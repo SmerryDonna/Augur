@@ -1,14 +1,17 @@
 package com.cryptoproject.controller;
 
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
+
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 import com.augur.client.APIClient;
 import com.augur.client.MessaggioClient;
 import com.coinmarketapi.models.ApiResponse;
 import com.cryptoproject.graph.InterGraph;
 import com.cryptoproject.graph.LogInGraph;
-import com.cyptoproject.login.Login;
 
 public class ControllerUIModel {
 
@@ -19,22 +22,12 @@ public class ControllerUIModel {
 	private ActionListener gestoreSubmitInter;
 	private ActionListener gestoreSubmitLogin;
 
-	private String indirizzoProtafoglio;
-	private String previsione;
-	private String valuta;
-	private String scommessa;
-	private APIClient apiClient;
+	private HttpSecurity http;
 
-	private Login loginAuth;
-
-	private String username;
-	private String psw;
-
-	public ControllerUIModel(InterGraph inter, LogInGraph login, MessaggioClient messaggioClient, APIClient apiClient) {
+	public ControllerUIModel(InterGraph inter, LogInGraph login, MessaggioClient messaggioClient) {
 		this.inter = inter;
 		this.login = login;
 		this.messaggioClient = messaggioClient;
-		this.apiClient = apiClient;
 		gestoreEventi();
 
 		// assegno il gestore di evento al bottone btnSubmit dell'interfaccia
@@ -43,7 +36,7 @@ public class ControllerUIModel {
 		login.getBtnSubmit().addActionListener(gestoreSubmitLogin);
 	}
 
-	private void gestoreEventi() {
+	public void gestoreEventi() {
 		// Codice gestore dell'interfaccia grafica autenticata
 		gestoreSubmitInter = new ActionListener() {
 
@@ -55,7 +48,7 @@ public class ControllerUIModel {
 				messaggioClient.setScommessa(inter.getScommessa());
 
 				// chiamata al metodo API
-				ApiResponse<String> apiResponse = apiClient.getAnswerFromServer(messaggioClient);
+				ApiResponse<String> apiResponse = APIClient.getAnswerFromServer(messaggioClient);
 				if (apiResponse.getData().equals("OK")) {
 					inter.setVintoPerso("Hai vinto!");
 				} else if (apiResponse.getData().equals("KO")) {
@@ -71,8 +64,13 @@ public class ControllerUIModel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				loginAuth.setUsername(login.getUsername());
-				loginAuth.setPassword(login.getPsw());
+				Desktop d = Desktop.getDesktop();
+				try {
+					d.browse(new URL("http://localhost:8080/oauth2/authorization/google").toURI());
+				} catch (Exception a) {
+					a.printStackTrace();
+				}
+
 			}
 		};
 
