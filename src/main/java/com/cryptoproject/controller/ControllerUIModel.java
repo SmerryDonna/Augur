@@ -12,6 +12,7 @@ import com.augur.client.MessaggioClient;
 import com.coinmarketapi.models.ApiResponse;
 import com.cryptoproject.graph.InterGraph;
 import com.cryptoproject.graph.LogInGraph;
+import com.cyptoproject.login.GoogleAuthHelper;
 
 public class ControllerUIModel {
 
@@ -66,7 +67,8 @@ public class ControllerUIModel {
 			public void actionPerformed(ActionEvent e) {
 				Desktop d = Desktop.getDesktop();
 				try {
-					d.browse(new URL("http://localhost:8080/oauth2/authorization/google").toURI());
+					GoogleAuthHelper helper = new GoogleAuthHelper();
+					d.browse(new URL(helper.buildLoginUrl()).toURI());
 				} catch (Exception a) {
 					a.printStackTrace();
 				}

@@ -2,9 +2,12 @@ package com.augur.server;
 
 import static spark.Spark.before;
 import static spark.Spark.halt;
+import static spark.Spark.port;
 import static spark.Spark.post;
 
 import java.util.Map;
+
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.coinmarketapi.ApiManager;
 import com.coinmarketapi.models.ApiResponse;
@@ -16,6 +19,7 @@ public class APIServer {
 	public static void main(String[] args) {
 		String urlBase = "/api/v1.0/";
 		Gson gson = new Gson();
+		port(8080);
 		before((request, response) -> {
 			response.header("Access-Control-Allow-Origin", "*");
 			response.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
@@ -50,5 +54,21 @@ public class APIServer {
 			}
 			return "";
 		}, gson::toJson);
+
+	}
+
+	@GetMapping("/")
+	public String helloWorld() {
+		return "you don't need to be logged in";
+	}
+
+	@GetMapping("/not-restricted")
+	public String notRestricted() {
+		return "you don't need to be logged in";
+	}
+
+	@GetMapping("/restricted")
+	public String restricted() {
+		return "if you see this you are logged in";
 	}
 }

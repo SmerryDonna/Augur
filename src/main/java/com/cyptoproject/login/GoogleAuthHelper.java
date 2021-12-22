@@ -62,21 +62,6 @@ public final class GoogleAuthHelper {
 	 * Builds a login URL based on client ID, secret, callback URI, and scope
 	 */
 
-//	@GetMapping("/")
-//	public String helloWorld() {
-//		return "you don't need to be logged in";
-//	}
-//
-//	@GetMapping("/not-restricted")
-//	public String notRestricted() {
-//		return "you don't need to be logged in";
-//	}
-//
-//	@GetMapping("/restricted")
-//	public String restricted() {
-//		return "if you see this you are logged in";
-//	}
-
 	public String buildLoginUrl() {
 
 		final GoogleAuthorizationCodeRequestUrl url = flow.newAuthorizationUrl();
